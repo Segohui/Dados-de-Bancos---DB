@@ -1,7 +1,5 @@
 
 
-
-
 CREATE TABLE estado_assento (
     nome VARCHAR(32) NOT NULL,
     PRIMARY KEY (nome)
@@ -28,12 +26,17 @@ CREATE TABLE usuario (
     PRIMARY KEY(user_tag)
 );
 
-CREATE TABLE segue(
+CREATE TABLE segue (
     user_tag1       VARCHAR(16)     NOT NULL,
     user_tag2       VARCHAR(16)     NOT NULL CHECK(user_tag2 != user_tag1),
     FOREIGN KEY (user_tag1) REFERENCES usuario(user_tag),
     FOREIGN KEY (user_tag2) REFERENCES usuario(user_tag),
     PRIMARY KEY (user_tag1, user_tag2)
+);
+
+CREATE TABLE tag (
+    id INT PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(32) NOT NULL UNIQUE
 );
 
 CREATE TABLE assento (
@@ -44,6 +47,20 @@ CREATE TABLE assento (
     FOREIGN KEY (nome_estado_assento)   REFERENCES estado_assento(nome),
     FOREIGN KEY (nome_localizacao)      REFERENCES localizacao(nome),
     PRIMARY KEY (id_assento)
+);
+
+CREATE TABLE foto (
+    file_path VARCHAR(128) NOT NULL,
+    id_assento INT NOT NULL,
+    PRIMARY KEY (file_path),
+    FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
+);
+
+CREATE TABLE descreve (
+    id_tag INT NOT NULL,
+    id_assento INT NOT NULL,
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
 );
 
 CREATE TABLE valida (
@@ -88,7 +105,6 @@ CREATE TABLE sugestao (
 );
 
 
-
 INSERT INTO usuario 
     (user_tag   , username     ,data_nascimento ,data_criacao   ,foto_perfil_url            ,biografia)     VALUES
     ('ana'     ,'AnaAvalia'   ,'2005-02-12'    ,'2025-06-06'   ,'foto_perfil_Blank.png'    ,NULL   ),
@@ -96,7 +112,6 @@ INSERT INTO usuario
     ('carla'   ,'carla'       ,'2013-03-23'    ,'2025-05-08'   ,'foto_claraTReste.png'     ,'bio'  ),
     ('diego'   ,'NaoEoDiego'  ,'2000-09-11'    ,'2025-05-05'   ,'foto_perfil_Blank.png'    ,'gloria aos bancos')
 ;
-
 
 INSERT INTO segue
     (user_tag1  , user_tag2)    VALUES
@@ -119,14 +134,26 @@ UPDATE usuario SET seguindo = (
     WHERE (user_tag1 = user_tag)
 );
 
-
-
+INSERT INTO tag (nome) VALUES
+('possui encosto'),
+('possui braço'),
+('acolchoado'),
+('individual'),
+('social'),
+('poltrona'),
+('material: madeira'),
+('material: metal'),
+('material: pedra'),
+('dá para deitar'),
+('acompanha uma mesa'),
+('carteira'),
+('em interior'),
+('ar livre')
+('air fryer acoplada');
 
 INSERT INTO estado_assento (nome) VALUES
 ('vivo' ),
 ('morto');
-
-
 
 INSERT INTO localizacao (nome, coordenadas) VALUES
 ('IC', 'sla'),
@@ -172,7 +199,6 @@ UPDATE usuario SET n_bancos_avaliados = ROUND((
     FROM avalia
     WHERE (usuario.user_tag = avalia.user_tag)
 ),2);
-
 
 INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, nome_estado_assento, coordenadas) VALUES
 (1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'vivo', '-22.8147,-47.0647'),
