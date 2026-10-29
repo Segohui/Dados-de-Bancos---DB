@@ -9,6 +9,11 @@ CREATE TABLE localizacao (
     PRIMARY KEY (nome)
 );
 
+CREATE TABLE tag (
+    id INT PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(32) NOT NULL UNIQUE
+);
+
 CREATE TABLE assento (
     id INT NOT NULL,
     data_publicacao DATE NOT NULL,
@@ -17,6 +22,13 @@ CREATE TABLE assento (
     PRIMARY KEY (id),
     FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome),
     FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
+);
+
+CREATE TABLE foto (
+    file_path VARCHAR(128) NOT NULL,
+    id_assento INT NOT NULL,
+    PRIMARY KEY (file_path),
+    FOREIGN KEY (id_assento) REFERENCES assento(id)
 );
 
 CREATE TABLE valida (
@@ -33,6 +45,30 @@ CREATE TABLE abriga (
     FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
 );
 
+CREATE TABLE descreve (
+    id_tag INT NOT NULL,
+    id_assento INT NOT NULL,
+    FOREIGN KEY (id_tag) REFERENCES tag(id),
+    FOREIGN KEY (id_assento) REFERENCES assento(id)
+)
+
+
+INSERT INTO tag (nome) VALUES
+('possui encosto'),
+('possui braço'),
+('acolchoado'),
+('individual'),
+('social'),
+('poltrona'),
+('material: madeira'),
+('material: metal'),
+('material: pedra'),
+('dá para deitar'),
+('acompanha uma mesa'),
+('carteira'),
+('em interior'),
+('ar livre')
+('air fryer acoplada');
 
 INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
 (1, '01/10/2026', 'vivo', 'IC'),
