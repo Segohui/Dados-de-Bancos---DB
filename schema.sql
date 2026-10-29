@@ -35,7 +35,7 @@ CREATE TABLE segue (
 );
 
 CREATE TABLE tag (
-    id INT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(32) NOT NULL UNIQUE
 );
 
@@ -148,7 +148,7 @@ INSERT INTO tag (nome) VALUES
 ('acompanha uma mesa'),
 ('carteira'),
 ('em interior'),
-('ar livre')
+('ar livre'),
 ('air fryer acoplada');
 
 INSERT INTO estado_assento (nome) VALUES
