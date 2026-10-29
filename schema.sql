@@ -10,7 +10,7 @@ CREATE TABLE localizacao (
 );
 
 CREATE TABLE tag (
-    id INT PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome VARCHAR(32) NOT NULL UNIQUE
 );
 
@@ -50,7 +50,7 @@ CREATE TABLE descreve (
     id_assento INT NOT NULL,
     FOREIGN KEY (id_tag) REFERENCES tag(id),
     FOREIGN KEY (id_assento) REFERENCES assento(id)
-)
+);
 
 
 INSERT INTO tag (nome) VALUES
@@ -67,7 +67,7 @@ INSERT INTO tag (nome) VALUES
 ('acompanha uma mesa'),
 ('carteira'),
 ('em interior'),
-('ar livre')
+('ar livre'),
 ('air fryer acoplada');
 
 INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
