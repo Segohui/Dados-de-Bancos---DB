@@ -33,6 +33,12 @@ CREATE TABLE abriga (
     FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
 );
 
+CREATE TABLE avalia (
+    user_tag VARCHAR(32) NOT NULL
+    id_assento INT NOT NULL
+    
+);
+
 
 INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
 (1, '01/10/2026', 'vivo', 'IC'),
