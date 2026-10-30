@@ -34,11 +34,16 @@ CREATE TABLE abriga (
 );
 
 CREATE TABLE avalia (
-    user_tag VARCHAR(32) NOT NULL
-    id_assento INT NOT NULL
-    
+    user_tag VARCHAR(32) NOT NULL,
+    id_assento INT NOT NULL,
+    nota INT NOT NULL,
+    data_avaliacao DATE NOT NULL,
+    comentario VARCHAR(150),
+    PRIMARY KEY (user_tag,id_assento),
+    FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
+    FOREIGN KEY (id_assento) REFERENCES assento(id),
+    CHECK (nota BETWEEN 0 and 5)
 );
-
 
 INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
 (1, '01/10/2026', 'vivo', 'IC'),
