@@ -45,6 +45,21 @@ CREATE TABLE avalia (
     CHECK (nota BETWEEN 0 and 5)
 );
 
+CREATE TABLE sugestao (
+    id_sugestao INT NOT NULL,
+    estado VARCHAR(16) NOT NULL DEFAULT 'pendente',
+    data_de_envio DATE NOT NULL,
+    user_tag VARCHAR(32) NOT NULL,
+    nome_local VARCHAR(32) NOT NULL,
+    nome_estado_assento VARCHAR(32) NOT NULL,
+    coordenadas VARCHAR(50),
+    PRIMARY KEY (id_sugestao),
+    FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
+    FOREIGN KEY (nome_local) REFERENCES localizacao(nome),
+    FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome),
+    CHECK (estado IN ('pendente','aprovada','rejeitada'))
+);
+
 INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
 (1, '01/10/2026', 'vivo', 'IC'),
 (2, '01/9/2026', 'vivo', 'CB'),
