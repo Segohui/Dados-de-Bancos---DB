@@ -81,3 +81,24 @@ INSERT INTO estado_assento (nome) VALUES
 INSERT INTO localizacao (nome, coordenadas) VALUES
 ('IC', 'sla'),
 ('CB', 'sla');
+
+INSERT INTO avalia (user_tag, id_assento, nota, data_avaliacao, comentario) VALUES
+('@ana',   1,  5, '2026-10-02', 'Sombra o dia todo, ótimo para ler'),
+('@ana',   2,  3, '2026-09-10', 'Ok, mas fica perto do barulho'),
+('@ana',   7,  4, '2026-04-12', NULL),
+('@bruno', 1,  4, '2026-10-05', 'Bom, só falta uma tomada'),
+('@bruno', 3,  2, '2026-08-15', 'Madeira solta'),
+('@bruno', 12, 0, '2026-01-20', 'Quebrado, não dá para sentar'),
+('@carla', 1,  5, '2026-10-10', NULL),
+('@carla', 6,  4, '2026-05-18', 'Tranquilo à tarde'),
+('@carla', 9,  3, '2026-02-25', NULL),
+('@diego', 4,  5, '2026-07-21', 'Melhor do CB'),
+('@diego', 5,  2, '2026-06-30', 'Bate sol forte'),
+('@diego', 11, 4, '2026-01-14', NULL);
+
+INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, nome_estado_assento, coordenadas) VALUES
+(1, 'aprovada',  '2025-12-20', '@ana',   'IC', 'vivo', '-22.8147,-47.0647'),
+(2, 'rejeitada', '2026-03-02', '@bruno', 'CB', 'vivo', NULL),
+(3, 'pendente',  '2026-10-20', '@carla', 'IC', 'vivo', '-22.8150,-47.0650'),
+(4, 'pendente',  '2026-10-25', '@diego', 'CB', 'vivo', NULL),
+(5, 'aprovada',  '2026-09-28', '@ana',   'IC', 'vivo', NULL);
