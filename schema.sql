@@ -9,27 +9,42 @@ CREATE TABLE localizacao (
     PRIMARY KEY (nome)
 );
 
+CREATE TABLE usuario (
+    user_tag            VARCHAR(16)     NOT NULL    CHECK(length(user_tag)>=3),
+    username            VARCHAR(16)     NOT NULL    CHECK(length(username)>=3),
+    data_nascimento     DATE            NOT NULL,
+    data_criacao        DATE            NOT NULL    DEFAULT current_date,
+    foto_perfil_url     VARCHAR(32)     NOT NULL    DEFAULT 'foto_perfil_Blank.png',
+    -- armazenado como char, salvando o link da imagem salva no sistema
+    biografia           VARCHAR(64),
+    n_bancos_avaliados  INT             NOT NULL    DEFAULT 0,
+    media_rate          INT             NOT NULL    DEFAULT 0,
+    seguindo            INT             NOT NULL    DEFAULT 0,
+    seguidores          INT             NOT NULL    DEFAULT 0,
+    PRIMARY KEY(user_tag)
+);
+
 CREATE TABLE assento (
-    id INT NOT NULL,
-    data_publicacao DATE NOT NULL,
+    id_assento          INT         NOT NULL,
+    data_publicacao     DATE        NOT NULL,
     nome_estado_assento VARCHAR(32) NOT NULL,
-    nome_localizacao VARCHAR(32) NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome),
-    FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
+    nome_localizacao    VARCHAR(32) NOT NULL,
+    FOREIGN KEY (nome_estado_assento)   REFERENCES estado_assento(nome),
+    FOREIGN KEY (nome_localizacao)      REFERENCES localizacao(nome),
+    PRIMARY KEY (id_assento)
 );
 
 CREATE TABLE valida (
     id_assento INT NOT NULL,
     nome_estado_assento VARCHAR(32) NOT NULL,
-    FOREIGN KEY (id_assento) REFERENCES assento(id),
+    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
     FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome)
 );
 
 CREATE TABLE abriga (
     id_assento INT NOT NULL,
     nome_localizacao VARCHAR(32) NOT NULL,
-    FOREIGN KEY (id_assento) REFERENCES assento(id),
+    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
     FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
 );
 
@@ -41,7 +56,7 @@ CREATE TABLE avalia (
     comentario VARCHAR(150),
     PRIMARY KEY (user_tag,id_assento),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
-    FOREIGN KEY (id_assento) REFERENCES assento(id),
+    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
     CHECK (nota BETWEEN 0 and 5)
 );
 
@@ -60,27 +75,41 @@ CREATE TABLE sugestao (
     CHECK (estado IN ('pendente','aprovada','rejeitada'))
 );
 
-INSERT INTO assento (id, data_publicacao, nome_estado_assento, nome_localizacao) VALUES
-(1, '01/10/2026', 'vivo', 'IC'),
-(2, '01/9/2026', 'vivo', 'CB'),
-(3, '01/8/2026', 'vivo', 'IC'),
-(4, '01/7/2026', 'vivo', 'CB'),
-(5, '01/6/2026', 'vivo', 'CB'),
-(6, '01/5/2026', 'vivo', 'IC'),
-(7, '01/4/2026', 'vivo', 'CB'),
-(8, '01/3/2026', 'vivo', 'IC'),
-(9, '01/2/2026', 'vivo', 'IC'),
-(10, '01/1/2026', 'vivo', 'CB'),
-(11, '01/1/2026', 'vivo', 'IC'),
-(12, '01/1/2026', 'morto', 'CB');
+
+
+INSERT INTO usuario 
+(user_tag   , username     ,data_nascimento ,data_criacao   ,foto_perfil_url            ,biografia)     VALUES
+('@ana'     ,'AnaAvalia'   ,'2005-02-12'    ,'2025-06-06'   ,'foto_perfil_Blank.png'    ,NULL   ),
+('@bruno'   ,'Bru'         ,'1999-12-12'    ,'2025-06-07'   ,'foto_customTeste.png'     ,NULL   ),
+('@carla'   ,'carla'       ,'2013-03-23'    ,'2025-05-08'   ,'foto_claraTReste.png'     ,'bio'  ),
+('@diego'   ,'NaoEoDiego'  ,'2000-09-11'    ,'2025-05-05'   ,'foto_perfil_Blank.png'    ,'gloria aos bancos');
+
+
 
 INSERT INTO estado_assento (nome) VALUES
-('vivo'),
+('vivo' ),
 ('morto');
+
+
 
 INSERT INTO localizacao (nome, coordenadas) VALUES
 ('IC', 'sla'),
 ('CB', 'sla');
+
+INSERT INTO assento 
+(id_assento , data_publicacao   , nome_estado_assento   , nome_localizacao) VALUES
+(1  , '2026-10-01'      , 'vivo'                , 'IC'),
+(2  , '2026-09-01'      , 'vivo'                , 'CB'),
+(3  , '2026-08-01'      , 'vivo'                , 'IC'),
+(4  , '2026-07-01'      , 'vivo'                , 'CB'),
+(5  , '2026-06-01'      , 'vivo'                , 'CB'),
+(6  , '2026-05-01'      , 'vivo'                , 'IC'),
+(7  , '2026-04-01'      , 'vivo'                , 'CB'),
+(8  , '2026-03-01'      , 'vivo'                , 'IC'),
+(9  , '2026-02-01'      , 'vivo'                , 'IC'),
+(10 , '2026-01-02'      , 'vivo'                , 'CB'),
+(11 , '2026-01-01'      , 'vivo'                , 'IC'),
+(12 , '2026-01-01'      , 'morto'               , 'CB');
 
 INSERT INTO avalia (user_tag, id_assento, nota, data_avaliacao, comentario) VALUES
 ('@ana',   1,  5, '2026-10-02', 'Sombra o dia todo, ótimo para ler'),
