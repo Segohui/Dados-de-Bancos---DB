@@ -1,10 +1,3 @@
-
-
-CREATE TABLE estado_assento (
-    nome VARCHAR(32) NOT NULL,
-    PRIMARY KEY (nome)
-);
-
 CREATE TABLE localizacao (
     nome VARCHAR(20) NOT NULL,
     coordenadas VARCHAR(50),
@@ -17,7 +10,6 @@ CREATE TABLE usuario (
     data_nascimento     DATE            NOT NULL,
     data_criacao        DATE            NOT NULL    DEFAULT current_date,
     foto_perfil_url     VARCHAR(32)     NOT NULL    DEFAULT 'foto_perfil_Blank.png',
-    -- armazenado como char, salvando o link da imagem salva no sistema
     biografia           VARCHAR(64),
     n_bancos_avaliados  INT             NOT NULL    DEFAULT 0,
     media_rate          INT             NOT NULL    DEFAULT 0,
@@ -42,11 +34,11 @@ CREATE TABLE tag (
 CREATE TABLE assento (
     id_assento          INT         NOT NULL,
     data_publicacao     DATE        NOT NULL,
-    nome_estado_assento VARCHAR(32) NOT NULL,
+    estado VARCHAR(32) NOT NULL,
     nome_localizacao    VARCHAR(32) NOT NULL,
-    FOREIGN KEY (nome_estado_assento)   REFERENCES estado_assento(nome),
     FOREIGN KEY (nome_localizacao)      REFERENCES localizacao(nome),
-    PRIMARY KEY (id_assento)
+    PRIMARY KEY (id_assento),
+    CHECK (estado IN ('existe', 'nao existe', 'quebrado'))
 );
 
 CREATE TABLE foto (
@@ -61,20 +53,6 @@ CREATE TABLE descreve (
     id_assento INT NOT NULL,
     FOREIGN KEY (id_tag) REFERENCES tag(id),
     FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
-);
-
-CREATE TABLE valida (
-    id_assento INT NOT NULL,
-    nome_estado_assento VARCHAR(32) NOT NULL,
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
-    FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome)
-);
-
-CREATE TABLE abriga (
-    id_assento INT NOT NULL,
-    nome_localizacao VARCHAR(32) NOT NULL,
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
-    FOREIGN KEY (nome_localizacao) REFERENCES localizacao(nome)
 );
 
 CREATE TABLE avalia (
@@ -95,13 +73,13 @@ CREATE TABLE sugestao (
     data_de_envio DATE NOT NULL,
     user_tag VARCHAR(16) NOT NULL,
     nome_local VARCHAR(32) NOT NULL,
-    nome_estado_assento VARCHAR(32) NOT NULL,
+    estado_assento VARCHAR(32) NOT NULL,
     coordenadas VARCHAR(50),
     PRIMARY KEY (id_sugestao),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (nome_local) REFERENCES localizacao(nome),
-    FOREIGN KEY (nome_estado_assento) REFERENCES estado_assento(nome),
-    CHECK (estado IN ('pendente','aprovada','rejeitada'))
+    CHECK (estado IN ('pendente','aprovada','rejeitada')),
+    CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado'))
 );
 
 
@@ -152,28 +130,25 @@ INSERT INTO tag (nome) VALUES
 ('ar livre'),
 ('air fryer acoplada');
 
-INSERT INTO estado_assento (nome) VALUES
-('vivo' ),
-('morto');
-
 INSERT INTO localizacao (nome, coordenadas) VALUES
 ('IC', 'sla'),
-('CB', 'sla');
+('CB', 'sla'),
+('IFGW', 'sla');
 
 INSERT INTO assento 
-(id_assento , data_publicacao   , nome_estado_assento   , nome_localizacao) VALUES
-(1  , '2026-10-01'      , 'vivo'                , 'IC'),
-(2  , '2026-09-01'      , 'vivo'                , 'CB'),
-(3  , '2026-08-01'      , 'vivo'                , 'IC'),
-(4  , '2026-07-01'      , 'vivo'                , 'CB'),
-(5  , '2026-06-01'      , 'vivo'                , 'CB'),
-(6  , '2026-05-01'      , 'vivo'                , 'IC'),
-(7  , '2026-04-01'      , 'vivo'                , 'CB'),
-(8  , '2026-03-01'      , 'vivo'                , 'IC'),
-(9  , '2026-02-01'      , 'vivo'                , 'IC'),
-(10 , '2026-01-02'      , 'vivo'                , 'CB'),
-(11 , '2026-01-01'      , 'vivo'                , 'IC'),
-(12 , '2026-01-01'      , 'morto'               , 'CB');
+(id_assento , data_publicacao   , estado      , nome_localizacao) VALUES
+(1          , '2026-10-01'      , 'existe'    , 'IC'),
+(2          , '2026-09-01'      , 'existe'    , 'IC'),
+(3          , '2026-08-01'      , 'existe'    , 'IC'),
+(4          , '2026-07-01'      , 'existe'    , 'IC'),
+(5          , '2026-06-01'      , 'existe'    , 'IC'),
+(6          , '2026-05-01'      , 'quebrado'  , 'IC'),
+(7          , '2026-04-01'      , 'existe'    , 'IFGW'),
+(8          , '2026-03-01'      , 'existe'    , 'IFGW'),
+(9          , '2026-02-01'      , 'existe'    , 'CB'),
+(10         , '2026-01-02'      , 'existe'    , 'CB'),
+(11         , '2026-01-01'      , 'existe'    , 'CB'),
+(12         , '2026-01-01'      , 'nao existe', 'CB');
 
 INSERT INTO foto (file_path, id_assento) VALUES
 ('000000001.jpg', 1),
@@ -342,15 +317,16 @@ UPDATE usuario SET n_bancos_avaliados = (
     WHERE (usuario.user_tag = avalia.user_tag)
 );
 
-UPDATE usuario SET n_bancos_avaliados = ROUND((
+UPDATE usuario SET media_rate = ROUND((
     SELECT AVG(nota) 
     FROM avalia
     WHERE (usuario.user_tag = avalia.user_tag)
 ),2);
 
-INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, nome_estado_assento, coordenadas) VALUES
-(1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'vivo', '-22.8147,-47.0647'),
-(2, 'rejeitada', '2026-03-02', 'bruno', 'CB', 'vivo', NULL),
-(3, 'pendente',  '2026-10-20', 'carla', 'IC', 'vivo', '-22.8150,-47.0650'),
-(4, 'pendente',  '2026-10-25', 'diego', 'CB', 'vivo', NULL),
-(5, 'aprovada',  '2026-09-28', 'ana',   'IC', 'vivo', NULL);
+
+INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, estado_assento, coordenadas) VALUES
+(1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'existe', '-22.8147,-47.0647'),
+(2, 'rejeitada', '2026-03-02', 'bruno', 'CB', 'existe', NULL),
+(3, 'pendente',  '2026-10-20', 'carla', 'IC', 'existe', '-22.8150,-47.0650'),
+(4, 'pendente',  '2026-10-25', 'diego', 'CB', 'existe', NULL),
+(5, 'aprovada',  '2026-09-28', 'ana',   'IC', 'existe', NULL);
