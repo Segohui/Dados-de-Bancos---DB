@@ -175,6 +175,29 @@ INSERT INTO assento
 (11 , '2026-01-01'      , 'vivo'                , 'IC'),
 (12 , '2026-01-01'      , 'morto'               , 'CB');
 
+INSERT INTO foto (file_path, id_assento) VALUES
+('000000001.jpg', 1),
+('000000002.jpg', 2),
+('000000003.jpg', 3),
+('000000004.jpg', 3),
+('000000005.jpg', 4),
+('000000006.jpg', 4),
+('000000007.jpg', 5),
+('000000008.jpg', 6),
+('000000009.jpg', 7),
+('000000010.jpg', 8),
+('000000011.jpg', 8),
+('000000012.jpg', 8),
+('000000013.jpg', 9),
+('000000014.jpg', 9),
+('000000015.jpg', 9),
+('000000016.jpg', 10),
+('000000017.jpg', 10),
+('000000018.jpg', 11),
+('000000019.jpg', 12),
+('000000020.jpg', 12),
+('000000021.jpg', 12);
+
 -- tags que descrevem o assento de id 1, e assim para os outros assentos
 INSERT INTO descreve (id_tag, id_assento)
 SELECT id, 1
