@@ -67,6 +67,13 @@ CREATE TABLE avalia (
     CHECK (nota BETWEEN 0 and 5)
 );
 
+CREATE TABLE moderador (
+    mod_tag     VARCHAR(16) NOT NULL CHECK(length(mod_tag)>=3),
+    username    VARCHAR(16) NOT NULL CHECK(length(username)>=3),
+    role        VARCHAR(16) NOT NULL DEFAULT 'moderador',
+    PRIMARY KEY (mod_tag)
+);
+
 CREATE TABLE sugestao (
     id_sugestao INT NOT NULL,
     estado VARCHAR(16) NOT NULL DEFAULT 'pendente',
@@ -75,18 +82,15 @@ CREATE TABLE sugestao (
     nome_local VARCHAR(32) NOT NULL,
     estado_assento VARCHAR(32) NOT NULL,
     coordenadas VARCHAR(50),
+    mod_tag VARCHAR(16),
+    data_analise DATE,
+    justificativa VARCHAR(150),
     PRIMARY KEY (id_sugestao),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (nome_local) REFERENCES localizacao(nome),
+    FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
     CHECK (estado IN ('pendente','aprovada','rejeitada')),
     CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado'))
-);
-
-CREATE TABLE moderador (
-    mod_tag     VARCHAR(16) NOT NULL CHECK(length(mod_tag)>=3),
-    username    VARCHAR(16) NOT NULL CHECK(length(username)>=3),
-    role        VARCHAR(16) NOT NULL DEFAULT 'moderador',
-    PRIMARY KEY (mod_tag)
 );
 
 CREATE TABLE manutencao (
@@ -95,40 +99,16 @@ CREATE TABLE manutencao (
     tipo_manutencao     VARCHAR(16) NOT NULL,
     estado              VARCHAR(16) NOT NULL DEFAULT 'pendente',
     id_assento          INT         NOT NULL,
+    user_tag VARCHAR(16) NOT NULL,
+    mod_tag varchar(16),
+    data_analise DATE,
+    justificativa VARCHAR(150),
     PRIMARY KEY (id_manutencao),
     FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
+    FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
+    FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
     CHECK (estado IN ('pendente', 'aprovada', 'rejeitada'))
 );
-
-CREATE TABLE reporta (
-    id_manutencao   INT         NOT NULL,
-    user_tag        VARCHAR(16) NOT NULL,
-    PRIMARY KEY (id_manutencao),
-    FOREIGN KEY (id_manutencao) REFERENCES manutencao(id_manutencao),
-    FOREIGN KEY (user_tag)      REFERENCES usuario(user_tag)
-);
-
-CREATE TABLE analisa_manutencao (
-    id_manutencao   INT         NOT NULL,
-    mod_tag         VARCHAR(16) NOT NULL,
-    data_analise    DATE        NOT NULL,
-    justificativa   VARCHAR(150),
-    PRIMARY KEY (id_manutencao),
-    FOREIGN KEY (id_manutencao) REFERENCES manutencao(id_manutencao),
-    FOREIGN KEY (mod_tag)       REFERENCES moderador(mod_tag)
-);
-
-CREATE TABLE analisa_sugestao (
-    id_sugestao     INT         NOT NULL,
-    mod_tag         VARCHAR(16) NOT NULL,
-    data_analise    DATE        NOT NULL,
-    justificativa   VARCHAR(150),
-    PRIMARY KEY (id_sugestao),
-    FOREIGN KEY (id_sugestao)   REFERENCES sugestao(id_sugestao),
-    FOREIGN KEY (mod_tag)       REFERENCES moderador(mod_tag)
-);
-
-
 
 INSERT INTO usuario 
     (user_tag   , username     ,data_nascimento ,data_criacao   ,foto_perfil_url            ,biografia)     VALUES
@@ -370,36 +350,19 @@ UPDATE usuario SET media_rate = ROUND((
     WHERE (usuario.user_tag = avalia.user_tag)
 ),2);
 
-
-INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, estado_assento, coordenadas) VALUES
-(1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'existe', '-22.8147,-47.0647'),
-(2, 'rejeitada', '2026-03-02', 'bruno', 'CB', 'existe', NULL),
-(3, 'pendente',  '2026-10-20', 'carla', 'IC', 'existe', '-22.8150,-47.0650'),
-(4, 'pendente',  '2026-10-25', 'diego', 'CB', 'existe', NULL),
-(5, 'aprovada',  '2026-09-28', 'ana',   'IC', 'existe', NULL);
-
 INSERT INTO moderador (mod_tag, username, role) VALUES
 ('Avaliadora',  'AnaAvalia', 'VIP'),
 ('Gynn', 'Bgoy', 'moderador');
 
-INSERT INTO manutencao (id_manutencao, data_de_envio, tipo_manutencao, estado, id_assento) VALUES
-(1, '2026-09-12', 'reparo',       'aprovada',  6),
-(2, '2026-10-28', 'limpeza',      'pendente',  3),
-(3, '2026-05-20', 'limpeza',      'rejeitada', 8),
-(4, '2026-03-05', 'substituicao', 'aprovada',  9);
+INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, estado_assento, coordenadas, mod_tag, data_analise, justificativa) VALUES
+(1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'existe', '-22.8147,-47.0647', 'Avaliadora', '2025-12-22', NULL),
+(2, 'rejeitada', '2026-03-02', 'bruno', 'CB', 'existe', NULL,                'Gynn',       '2026-03-04', 'Local sem assento visível na foto'),
+(3, 'pendente',  '2026-10-20', 'carla', 'IC', 'existe', '-22.8150,-47.0650', NULL,         NULL,         NULL),
+(4, 'pendente',  '2026-10-25', 'diego', 'CB', 'existe', NULL,                NULL,         NULL,         NULL),
+(5, 'aprovada',  '2026-09-28', 'ana',   'IC', 'existe', NULL,                'Gynn',       '2026-09-30', NULL);
 
-INSERT INTO reporta (id_manutencao, user_tag) VALUES
-(1, 'ana'),
-(2, 'bruno'),
-(3, 'carla'),
-(4, 'diego');
-
-INSERT INTO analisa_manutencao (id_manutencao, mod_tag, data_analise, justificativa) VALUES
-(1, 'Avaliadora',  '2026-09-14', 'Assento quebrado confirmado pela foto'),
-(3, 'Gynn', '2026-05-22', 'Assento já estava limpo'),
-(4, 'Avaliadora',  '2026-03-07', NULL);
-
-INSERT INTO analisa_sugestao (id_sugestao, mod_tag, data_analise, justificativa) VALUES
-(1, 'Avaliadora', '2025-12-22', NULL),
-(2, 'Gynn',  '2026-03-04', 'Local sem assento visível na foto'),
-(5, 'Gynn',  '2026-09-30', NULL);
+INSERT INTO manutencao (id_manutencao, data_de_envio, tipo_manutencao, estado, id_assento, user_tag, mod_tag, data_analise, justificativa) VALUES
+(1, '2026-09-12', 'reparo',       'aprovada',  6, 'ana',   'Avaliadora', '2026-09-14', 'Assento quebrado confirmado pela foto'),
+(2, '2026-10-28', 'limpeza',      'pendente',  3, 'bruno', NULL,         NULL,         NULL),
+(3, '2026-05-20', 'limpeza',      'rejeitada', 8, 'carla', 'Gynn',       '2026-05-22', 'Assento já estava limpo'),
+(4, '2026-03-05', 'substituicao', 'aprovada',  9, 'diego', 'Avaliadora', '2026-03-07', NULL);
