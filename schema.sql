@@ -63,13 +63,6 @@ CREATE TABLE descreve (
     FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
 );
 
-CREATE TABLE foto (
-    file_path VARCHAR(128) NOT NULL,
-    id_assento INT NOT NULL,
-    PRIMARY KEY (file_path),
-    FOREIGN KEY (id_assento) REFERENCES assento(id)
-);
-
 CREATE TABLE valida (
     id_assento INT NOT NULL,
     nome_estado_assento VARCHAR(32) NOT NULL,
