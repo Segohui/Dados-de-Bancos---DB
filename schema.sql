@@ -424,14 +424,26 @@ INSERT INTO moderador (mod_tag, username, role) VALUES
 ('Gynn', 'Bgoy', 'moderador');
 
 INSERT INTO sugestao (id_sugestao, estado, data_de_envio, user_tag, nome_local, estado_assento, coordenadas, mod_tag, data_analise, justificativa) VALUES
-(1, 'aprovada',  '2025-12-20', 'ana',   'IC', 'existe', '-22.8147,-47.0647', 'Avaliadora', '2025-12-22', NULL),
-(2, 'rejeitada', '2026-03-02', 'bruno', 'CB', 'existe', NULL,                'Gynn',       '2026-03-04', 'Local sem assento visível na foto'),
-(3, 'pendente',  '2026-10-20', 'carla', 'IC', 'existe', '-22.8150,-47.0650', NULL,         NULL,         NULL),
-(4, 'pendente',  '2026-10-25', 'diego', 'CB', 'existe', NULL,                NULL,         NULL,         NULL),
-(5, 'aprovada',  '2026-09-28', 'ana',   'IC', 'existe', NULL,                'Gynn',       '2026-09-30', NULL);
+(1,  'aprovada',  '2025-12-20', 'ana',           'IC',   'existe',     '-22.8147,-47.0647', 'Avaliadora', '2025-12-22', NULL),
+(2,  'rejeitada', '2026-03-02', 'bruno',         'CB',   'existe',     NULL,                'Gynn',       '2026-03-04', 'Local sem assento visível na foto'),
+(3,  'pendente',  '2026-10-20', 'carla',         'IC',   'existe',     '-22.8150,-47.0650', NULL,         NULL,         NULL),
+(4,  'pendente',  '2026-10-25', 'diego',         'CB',   'existe',     NULL,                NULL,         NULL,         NULL),
+(5,  'aprovada',  '2026-09-28', 'ana',           'IC',   'existe',     NULL,                'Gynn',       '2026-09-30', NULL),
+(6,  'pendente',  '2026-11-01', 'abobora',       'IFGW', 'nao existe', '-22.8160,-47.0660', NULL,         NULL,         NULL),
+(7,  'aprovada',  '2026-01-15', 'sixbancoseven', 'CB',   'quebrado',   NULL,                'Avaliadora', '2026-01-16', NULL),
+(8,  'rejeitada', '2026-04-10', 'conta',         'IC',   'existe',     NULL,                'Gynn',       '2026-04-12', 'Já existe um banco cadastrado nessa exata coordenada'),
+(9,  'pendente',  '2026-11-02', 'bomDIA',        'IFGW', 'existe',     '-22.8162,-47.0665', NULL,         NULL,         NULL),
+(10, 'pendente',  '2026-11-02', 'yay',           'CB',   'nao existe', NULL,                NULL,         NULL,         NULL);
 
 INSERT INTO manutencao (id_manutencao, data_de_envio, tipo_manutencao, estado, id_assento, user_tag, mod_tag, data_analise, justificativa) VALUES
-(1, '2026-09-12', 'reparo',       'aprovada',  6, 'ana',   'Avaliadora', '2026-09-14', 'Assento quebrado confirmado pela foto'),
-(2, '2026-10-28', 'limpeza',      'pendente',  3, 'bruno', NULL,         NULL,         NULL),
-(3, '2026-05-20', 'limpeza',      'rejeitada', 8, 'carla', 'Gynn',       '2026-05-22', 'Assento já estava limpo'),
-(4, '2026-03-05', 'substituicao', 'aprovada',  9, 'diego', 'Avaliadora', '2026-03-07', NULL);
+(1,  '2026-09-12', 'quebrado',    'aprovada',  6,  'ana',           'Avaliadora', '2026-09-14', 'Assento quebrado confirmado pela foto'),
+(2,  '2026-10-28', 'nao existe',  'rejeitada', 3,  'bruno',         'Gynn',       '2026-10-29', 'Banco existe'),
+(3,  '2026-05-20', 'inacessivel', 'pendente',  8,  'carla',         NULL,         NULL,         NULL),
+(4,  '2026-03-05', 'inacessivel', 'pendente',  4,  'diego',         NULL,         NULL,         NULL),
+(5,  '2026-04-02', 'nao existe',  'pendente',  7,  'yay',           NULL,         NULL,         NULL),
+(6,  '2026-08-10', 'nao existe',  'pendente',  5,  'abobora',       NULL,         NULL,         NULL),
+(7,  '2026-09-01', 'inacessivel', 'aprovada',  1,  'sixbancoseven', 'Gynn',       '2026-09-05', 'Assento inacessivel confimado'),
+(8,  '2026-01-11', 'quebrado',    'pendente',  2,  'conta',         NULL,         NULL,         NULL),
+(9,  '2026-02-08', 'inacessivel', 'pendente',  11, 'bomDIA',        NULL,         NULL,         NULL),
+(10, '2026-01-01', 'nao existe',  'rejeitada', 12, 'conta',         'Avaliadora', '2026-01-03', 'Falso relato'),
+(11, '2026-02-23', 'nao existe',  'pendente',  10, 'yay',           NULL,         NULL,         NULL);
