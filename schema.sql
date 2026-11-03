@@ -355,20 +355,20 @@ WHERE nome IN (
     'ar livre'
 );
 
-INSERT INTO avalia 
+INSERT INTO avalia
     (user_tag, id_assento, nota, data_avaliacao, comentario) VALUES
     ('ana',   1,  5, '2026-10-02', 'Sombra o dia todo, ótimo para ler'),
-    ('ana',   2,  3, '2026-09-10', 'Ok, mas fica perto do barulho'),
+    ('ana',   6,  3, '2026-09-10', 'Ok, mas fica perto do barulho'),
     ('ana',   7,  4, '2026-04-12', NULL),
     ('bruno', 1,  4, '2026-10-05', 'Bom, só falta uma tomada'),
-    ('bruno', 3,  2, '2026-08-15', 'Madeira solta'),
+    ('bruno', 3,  2, '2026-08-15', 'Dói quando eu sento'),
     ('bruno', 12, 0, '2026-01-20', 'Quebrado, não dá para sentar'),
     ('carla', 1,  5, '2026-10-10', NULL),
-    ('carla', 6,  4, '2026-05-18', 'Tranquilo à tarde'),
+    ('carla', 8,  4, '2026-05-18', 'Tranquilo à tarde'),
     ('carla', 9,  3, '2026-02-25', NULL),
-    ('sixbancoseven', 4,  5, '2026-07-21', 'Melhor do CB'),
-    ('sixbancoseven', 5,  2, '2026-06-30', 'Bate sol forte'),
-    ('sixbancoseven', 11, 4, '2026-01-14', NULL)
+    ('sixbancoseven', 4,  4, '2026-07-21', NULL),
+    ('sixbancoseven', 11, 5, '2026-01-14', 'Melhor do CB'),
+    ('sixbancoseven', 12,  2, '2026-06-30', 'Bate sol forte')
 ;
 
 UPDATE usuario SET n_bancos_avaliados = (
