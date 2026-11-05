@@ -46,7 +46,7 @@ CREATE TABLE assento (
     nome_localizacao    VARCHAR(32) NOT NULL,
     FOREIGN KEY (nome_localizacao)      REFERENCES localizacao(nome),
     PRIMARY KEY (id_assento),
-    CHECK (estado IN ('existe', 'nao existe', 'quebrado'))
+    CHECK (estado IN ('existe', 'nao existe', 'quebrado', 'inacessivel'))
 );
 
 CREATE TABLE foto (
@@ -98,7 +98,7 @@ CREATE TABLE sugestao (
     FOREIGN KEY (nome_local) REFERENCES localizacao(nome),
     FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
     CHECK (estado IN ('pendente','aprovada','rejeitada')),
-    CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado'))
+    CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado', 'inacessivel'))
 );
 
 CREATE TABLE manutencao (
@@ -115,6 +115,7 @@ CREATE TABLE manutencao (
     FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
+    CHECK (tipo_manutencao IN ('quebrado', 'inacessivel', 'nao existe'))
     CHECK (estado IN ('pendente', 'aprovada', 'rejeitada'))
 );
 
