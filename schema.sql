@@ -1,6 +1,7 @@
 CREATE TABLE localizacao (
-    nome VARCHAR(20) NOT NULL,
-    coordenadas VARCHAR(50),
+    nome            VARCHAR(20)         NOT NULL,
+    anguloX         DOUBLE PRECISION    NOT NULL,
+    anguloY         DOUBLE PRECISION    NOT NULL,
     PRIMARY KEY (nome)
 );
 
@@ -189,10 +190,11 @@ INSERT INTO tag (nome) VALUES
 ('ar livre'),
 ('air fryer acoplada');
 
-INSERT INTO localizacao (nome, coordenadas) VALUES
-('IC', 'sla'),
-('CB', 'sla'),
-('IFGW', 'sla');
+INSERT INTO localizacao 
+    (nome   ,anguloX, anguloY) VALUES
+    ('IC'   , -22.81372610472813    , -47.06384660893944 ),
+    ('CB'   , -22.817531128749707   , -47.06858811274335 ),
+    ('IFGW' , -22.81749878775169    , -47.067696591066365);
 
 INSERT INTO assento 
 (id_assento , data_publicacao   , estado      , nome_localizacao) VALUES

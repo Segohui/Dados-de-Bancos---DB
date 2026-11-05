@@ -30,3 +30,19 @@ WHERE estado = 'pendente'
     -- AND tipo = 'inacessivel'                      
     -- AND data_de_envio >= '2026-08-01'            
 ORDER BY data_de_envio ASC;
+
+
+
+
+
+
+WITH BancosRegiao AS (
+    SELECT *
+    FROM localizacao
+    WHERE localizacao.anguloX >= Xmin AND localizacao.anguloX <= Xmax AND localizacao.anguloY >= Ymin AND localizacao.anguloY <= Ymax
+)
+SELECT *
+FROM BancosRegiao
+JOIN assento
+ON assento.nome_localizacao = BancosRegiao.nome
+ORDER BY assento.id_assento
