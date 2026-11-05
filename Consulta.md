@@ -1,5 +1,4 @@
-# Versão Polida das Cinco Interfaces
-
+# Interfaces
 
 ## Interface 1: Página de Usuário
 ![pagina usuario](https://github.com/Segohui/Dados-de-Bancos---DB/blob/markdowns2/imagensPaginas/imagem_PaginaUser.png?raw=true)
@@ -12,6 +11,7 @@
 (Imagem2.jpg)
 
 ### Explicação
+A tela possui duas seções principais, uma que mostra os tickets (manutenções ou sugestões), e a outra que define o filtro para quais aparecem. O filtro pode filtrar tickets por estado (*pendente*, *aprovada*, *rejeitada*), por tag de usuário, pela categoria (*existe*, *não existe*, *quebrado*)
 
 ### Relevância
 
