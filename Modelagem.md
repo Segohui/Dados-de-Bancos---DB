@@ -2,7 +2,7 @@
 
 ## Escolha SGBD
 
-O SGBD escolhido foi o SQLlite. O principal motivo para a escolha é a simplicidade do uso. Utilizamos o gitgub para sincronizar mudanças de todos os membros por um arquivo.sql, com cada um podendo criar um .db localmente com o sqlite3.
+O SGBD escolhido foi o SQLlite. O principal motivo para a escolha é a simplicidade do uso, funcionando bem no vscode. Utilizamos o gitgub para sincronizar mudanças de todos os membros por um arquivo.sql, com cada um podendo criar um .db localmente com o sqlite3.
 
 ## Modelagem Lógica
 ![diagrama banco de dados](https://raw.githubusercontent.com/Segohui/Dados-de-Bancos---DB/e48dfebc475c50a8aab48bb0ea47245343a5d79f/diagram.drawio.svg)
