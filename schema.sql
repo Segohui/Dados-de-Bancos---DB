@@ -21,6 +21,7 @@ CREATE TABLE usuario (
     rate_3              INT             NOT NULL    DEFAULT 0,
     rate_2              INT             NOT NULL    DEFAULT 0,
     rate_1              INT             NOT NULL    DEFAULT 0,
+    rate_0              INT             NOT NULL    DEFAULT 0,
     PRIMARY KEY(user_tag)
 );
 
@@ -371,18 +372,7 @@ INSERT INTO avalia
     ('sixbancoseven', 12,  2, '2026-06-30', 'Bate sol forte')
 ;
 
-UPDATE usuario SET n_bancos_avaliados = (
-    SELECT COUNT(avalia.user_tag) 
-    FROM avalia
-    WHERE (usuario.user_tag = avalia.user_tag)
-);
 
-UPDATE usuario SET media_rate = ROUND(COALESCE((
-    SELECT AVG(avalia.nota) 
-    FROM avalia
-    WHERE (usuario.user_tag = avalia.user_tag)
-),0),2)
-;
 
 UPDATE usuario SET rate_5 = COALESCE((
     SELECT COUNT(avalia.user_tag) 
@@ -418,6 +408,22 @@ UPDATE usuario SET rate_1 = COALESCE((
     WHERE (usuario.user_tag = avalia.user_tag AND avalia.nota = 1)
 ),0)
 ;
+
+UPDATE usuario SET rate_0 = COALESCE((
+    SELECT COUNT(avalia.user_tag) 
+    FROM avalia
+    WHERE (usuario.user_tag = avalia.user_tag AND avalia.nota = 0)
+),0)
+;
+
+
+UPDATE usuario SET n_bancos_avaliados = (rate_5 + rate_4 + rate_3 + rate_2 + rate_1 + rate_0);
+
+UPDATE usuario SET media_rate = 
+    ROUND(COALESCE(((5 * rate_5) + (4* rate_4) + (3 * rate_3) + (2 * rate_2) + (1.0 * rate_1))/(n_bancos_avaliados),0),2)
+;
+
+
 
 INSERT INTO moderador (mod_tag, username, role) VALUES
 ('Avaliadora',  'AnaAvalia', 'VIP'),
