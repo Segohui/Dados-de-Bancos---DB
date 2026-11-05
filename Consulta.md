@@ -11,7 +11,7 @@
 (Imagem2.jpg)
 
 ### Explicação
-A tela possui duas seções principais, uma que mostra os tickets (manutenções ou sugestões), e a outra que define o filtro para quais aparecem. O filtro pode filtrar tickets por estado (*pendente*, *aprovada*, *rejeitada*), por tag de usuário, pela categoria (*existe*, *não existe*, *quebrado*)
+A tela possui duas seções principais, uma que mostra os tickets (manutenções ou sugestões), e a outra que define o filtro para quais aparecem. O filtro pode filtrar tickets por estado (*pendente*, *aprovada*, *rejeitada*), por tag de usuário, pelo tipo (*existe*, *não existe*, *quebrado*, *inacessivel*), 
 
 ### Relevância
 
