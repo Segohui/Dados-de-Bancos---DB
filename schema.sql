@@ -82,7 +82,7 @@ CREATE TABLE avalia (
     nota INT NOT NULL,
     data_avaliacao DATE NOT NULL,
     comentario VARCHAR(150),
-    PRIMARY KEY (user_tag,id_assento),
+    PRIMARY KEY (user_tag, id_assento),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (id_assento) REFERENCES assento(id),
     CHECK (nota BETWEEN 1 and 5)
@@ -128,7 +128,7 @@ CREATE TABLE manutencao (
     FOREIGN KEY (id_assento) REFERENCES assento(id),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
-    CHECK (tipo_manutencao IN ('quebrado', 'inacessivel', 'nao existe'))
+    CHECK (tipo_manutencao IN ('quebrado', 'inacessivel', 'nao existe')),
     CHECK (estado IN ('pendente', 'aprovada', 'rejeitada'))
 );
 
