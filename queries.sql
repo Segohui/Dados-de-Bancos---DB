@@ -50,7 +50,7 @@ FROM BancosRegiao
 JOIN assento
 ON assento.nome_localizacao = BancosRegiao.nome
     --finalmente ordebnamos a ordem por id do assento, mas na aplicação nao importa tanto pois sera colocado cada banco em seu local por coordenada no mapa
-ORDER BY assento.id_assento
+ORDER BY assento.id
 
 
 
