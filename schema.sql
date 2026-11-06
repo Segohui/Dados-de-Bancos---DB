@@ -40,27 +40,41 @@ CREATE TABLE tag (
 );
 
 CREATE TABLE assento (
-    id_assento          INT         NOT NULL,
+    id          INT         NOT NULL,
     data_publicacao     DATE        NOT NULL,
     estado VARCHAR(32) NOT NULL,
     nome_localizacao    VARCHAR(32) NOT NULL,
     FOREIGN KEY (nome_localizacao)      REFERENCES localizacao(nome),
-    PRIMARY KEY (id_assento),
-    CHECK (estado IN ('existe', 'nao existe', 'quebrado'))
+    PRIMARY KEY (id),
+    CHECK (estado IN ('existe', 'nao existe', 'quebrado', 'inacessivel'))
 );
 
 CREATE TABLE foto (
     file_path VARCHAR(128) NOT NULL,
     id_assento INT NOT NULL,
     PRIMARY KEY (file_path),
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
+    FOREIGN KEY (id_assento) REFERENCES assento(id)
+);
+
+CREATE TABLE fabricante (
+    nome VARCHAR(32) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL,
+    PRIMARY KEY (cnpj)
+);
+
+CREATE TABLE produz (
+    cnpj_fabricante VARCHAR(18) NOT NULL,
+    id_assento INT NOT NULL,
+    PRIMARY KEY (cnpj_fabricante, id_assento),
+    FOREIGN KEY (cnpj_fabricante) REFERENCES fabricante(cnpj),
+    FOREIGN KEY (id_assento) REFERENCES assento(id)
 );
 
 CREATE TABLE descreve (
     id_tag INT NOT NULL,
     id_assento INT NOT NULL,
     FOREIGN KEY (id_tag) REFERENCES tag(id),
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento)
+    FOREIGN KEY (id_assento) REFERENCES assento(id)
 );
 
 CREATE TABLE avalia (
@@ -71,7 +85,7 @@ CREATE TABLE avalia (
     comentario VARCHAR(150),
     PRIMARY KEY (user_tag,id_assento),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
+    FOREIGN KEY (id_assento) REFERENCES assento(id),
     CHECK (nota BETWEEN 0 and 5)
 );
 
@@ -98,7 +112,7 @@ CREATE TABLE sugestao (
     FOREIGN KEY (nome_local) REFERENCES localizacao(nome),
     FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
     CHECK (estado IN ('pendente','aprovada','rejeitada')),
-    CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado'))
+    CHECK (estado_assento IN ('existe', 'nao existe', 'quebrado', 'inacessivel'))
 );
 
 CREATE TABLE manutencao (
@@ -112,9 +126,10 @@ CREATE TABLE manutencao (
     data_analise DATE,
     justificativa VARCHAR(150),
     PRIMARY KEY (id_manutencao),
-    FOREIGN KEY (id_assento) REFERENCES assento(id_assento),
+    FOREIGN KEY (id_assento) REFERENCES assento(id),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (mod_tag) REFERENCES moderador(mod_tag),
+    CHECK (tipo_manutencao IN ('quebrado', 'inacessivel', 'nao existe'))
     CHECK (estado IN ('pendente', 'aprovada', 'rejeitada'))
 );
 
@@ -197,7 +212,7 @@ INSERT INTO localizacao
     ('IFGW' , -22.81749878775169    , -47.067696591066365);
 
 INSERT INTO assento 
-(id_assento , data_publicacao   , estado      , nome_localizacao) VALUES
+(id , data_publicacao   , estado      , nome_localizacao) VALUES
 (1          , '2026-10-01'      , 'existe'    , 'IC'),
 (2          , '2026-09-01'      , 'existe'    , 'IC'),
 (3          , '2026-08-01'      , 'existe'    , 'IC'),
@@ -233,6 +248,27 @@ INSERT INTO foto (file_path, id_assento) VALUES
 ('000000019.jpg', 12),
 ('000000020.jpg', 12),
 ('000000021.jpg', 12);
+
+INSERT INTO fabricante (nome, cnpj) VALUES
+('Tramontana S.A.', '12.345.678/0001-90'),
+('Tak&Stik Móveis', '98.765.432/0001-10'),
+('Ikéia Brasil', '11.222.333/0001-44'),
+('Herman Muller', '55.666.777/0001-88'),
+('Marfinito Plásticos', '44.555.666/0001-99');
+
+INSERT INTO produz (cnpj_fabricante, id_assento) VALUES
+('12.345.678/0001-90', 1),
+('12.345.678/0001-90', 2),
+('44.555.666/0001-99', 3),
+('44.555.666/0001-99', 4),
+('55.666.777/0001-88', 5),
+('12.345.678/0001-90', 6),
+('98.765.432/0001-10', 7),
+('98.765.432/0001-10', 8),
+('11.222.333/0001-44', 9),
+('11.222.333/0001-44', 10),
+('11.222.333/0001-44', 11),
+('98.765.432/0001-10', 12);
 
 -- tags que descrevem o assento de id 1, e assim para os outros assentos
 INSERT INTO descreve (id_tag, id_assento)
