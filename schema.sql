@@ -22,7 +22,6 @@ CREATE TABLE usuario (
     rate_3              INT             NOT NULL    DEFAULT 0,
     rate_2              INT             NOT NULL    DEFAULT 0,
     rate_1              INT             NOT NULL    DEFAULT 0,
-    rate_0              INT             NOT NULL    DEFAULT 0,
     PRIMARY KEY(user_tag)
 );
 
@@ -86,7 +85,7 @@ CREATE TABLE avalia (
     PRIMARY KEY (user_tag,id_assento),
     FOREIGN KEY (user_tag) REFERENCES usuario(user_tag),
     FOREIGN KEY (id_assento) REFERENCES assento(id),
-    CHECK (nota BETWEEN 0 and 5)
+    CHECK (nota BETWEEN 1 and 5)
 );
 
 CREATE TABLE moderador (
@@ -401,7 +400,7 @@ INSERT INTO avalia
     ('ana',   7,  4, '2026-04-12', NULL),
     ('bruno', 1,  4, '2026-10-05', 'Bom, só falta uma tomada'),
     ('bruno', 3,  2, '2026-08-15', 'Dói quando eu sento'),
-    ('bruno', 12, 0, '2026-01-20', 'Quebrado, não dá para sentar'),
+    ('bruno', 12, 1, '2026-01-20', 'Quebrado, não dá para sentar'),
     ('carla', 1,  5, '2026-10-10', NULL),
     ('carla', 8,  4, '2026-05-18', 'Tranquilo à tarde'),
     ('carla', 9,  3, '2026-02-25', NULL),
@@ -447,15 +446,8 @@ UPDATE usuario SET rate_1 = COALESCE((
 ),0)
 ;
 
-UPDATE usuario SET rate_0 = COALESCE((
-    SELECT COUNT(avalia.user_tag) 
-    FROM avalia
-    WHERE (usuario.user_tag = avalia.user_tag AND avalia.nota = 0)
-),0)
-;
 
-
-UPDATE usuario SET n_bancos_avaliados = (rate_5 + rate_4 + rate_3 + rate_2 + rate_1 + rate_0);
+UPDATE usuario SET n_bancos_avaliados = (rate_5 + rate_4 + rate_3 + rate_2 + rate_1);
 
 UPDATE usuario SET media_rate = 
     ROUND(COALESCE(((5 * rate_5) + (4* rate_4) + (3 * rate_3) + (2 * rate_2) + (1.0 * rate_1))/(n_bancos_avaliados),0),2)
