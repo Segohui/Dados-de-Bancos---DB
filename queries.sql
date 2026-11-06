@@ -1,6 +1,8 @@
 -- Tela de Tickets para Moderadores
 
 WITH TicketsModeracao AS (
+    -- Fazer a união entre manutenção e sugestão, renomeando os atributos
+    -- Para que sejam equivalentes
     SELECT 
         'Manutenção' AS categoria,
         id_manutencao AS id_ticket,
@@ -28,7 +30,7 @@ WHERE estado = 'pendente'
     -- AND user_tag = 'bomDIA'
     -- AND categoria = 'Manutenção'                 
     -- AND tipo = 'inacessivel'                      
-    -- AND data_de_envio >= '2026-08-01'            
+    -- AND data_de_envio >= '2026-08-01'           
 ORDER BY data_de_envio ASC;
 
 
