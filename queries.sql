@@ -39,14 +39,17 @@ ORDER BY data_de_envio ASC;
 
 
 WITH BancosRegiao AS (
+    --primeiro obtemos todas as locazicações presentes dentro da área delimitada pelo mapa que estamos observando
     SELECT *
     FROM localizacao
     WHERE localizacao.anguloX >= Xmin AND localizacao.anguloX <= Xmax AND localizacao.anguloY >= Ymin AND localizacao.anguloY <= Ymax
 )
 SELECT *
 FROM BancosRegiao
+--agora, com as localizações obtidas, fazemos um join com a tabela assentos para obter todos os assentos contendo as localizações dentro do mapa observado
 JOIN assento
 ON assento.nome_localizacao = BancosRegiao.nome
+    --finalmente ordebnamos a ordem por id do assento, mas na aplicação nao importa tanto pois sera colocado cada banco em seu local por coordenada no mapa
 ORDER BY assento.id_assento
 
 
