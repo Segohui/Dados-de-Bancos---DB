@@ -27,3 +27,13 @@ O SGBD escolhido foi o SQLlite. O principal motivo para a escolha é a simplicid
   A *manutenção* (pedido para mudar a situação do banco no site) se liga no diagrama a três relacionamentos: *Afeta* (assento), *Reporta* (usuário que abriu o pedido) e *Analisa* (moderador que decidiu). Como todos eles são 1:N, escolhemos não criar tabelas separadas para *Reporta* e *Analisa* e guardar essas informações direto na tabela **manutencao**, com as colunas *user_tag*, *mod_tag*, *data_analise* e *justificativa*.
 
   As colunas da análise ficam NULL enquanto o pedido está 'pendente' e são preenchidas com um UPDATE quando o moderador decide. Assim temos menos tabelas e evitamos JOINs extras. O mesmo foi feito na *sugestão*, que também recebe *mod_tag*, *data_analise* e *justificativa*.
+
+### Sugestão
+  A *sugestão* (pedido para cadastrar um banco novo no site) não aponta para um assento, já que ele ainda não existe. Por isso, a tabela **sugestao** guarda o *nome_local* (chave estrangeira para **localizacao**), o *estado_assento* informado pelo usuário e as *coordenadas*, que são opcionais. O *user_tag* de quem enviou é obrigatório.
+
+  Assim como na *manutenção*, não criamos uma tabela separada para a análise: *mod_tag*, *data_analise* e *justificativa* ficam na própria **sugestao**, como NULL enquanto o estado é 'pendente', e são preenchidas com um UPDATE quando o moderador decide.
+
+### Avaliação
+  A *avaliação* é a relação entre *usuário* e *assento*, então virou a tabela **avalia**, com os atributos *nota*, *data_avaliacao* e *comentario* (opcional). A chave primária é composta por (*user_tag*, *id_assento*), o que garante que cada usuário avalie um banco uma única vez, e a *nota* é limitada de 1 a 5 por um CHECK.
+
+  A nota média do assento não é guardada: ela é calculada com AVG sobre **avalia** quando necessário, o que a mantém sempre atualizada.
