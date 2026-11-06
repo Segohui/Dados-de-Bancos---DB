@@ -40,11 +40,16 @@
   Essa funcionalidade apresenta bancos de interesse por um caminho alternativo à localização geográfica, destacando locais que provavelmente vêm despertando a atenção da comunidade recentemente e que, por isso, tendem a ser mais relevantes no momento. Além disso, a seção atua como incentivo direto ao engajamento, o que fomenta a coleta de dados.
 
 ## Interface 4: Tela de Ranking
-(Imagem.jpg)
+[Ranking](https://github.com/Segohui/Dados-de-Bancos---DB/blob/main/imagensPaginas/leaderboard.png)
 
 ### Explicação
+  A tela mostra o ranking dos bancos em uma lista paginada, com a posição, a foto, o local, as principais tags, a nota média e o número de avaliações de cada banco. Ao lado, um painel de filtros permite filtrar por local, avaliação mínima e tags, e outro painel de "Ordenar por" aceita uma ou mais métricas: nota geral, idade, conforto e acessibilidade.
+
+  A query junta os assentos às suas avaliações, considerando apenas bancos que existem (nao mostrando os bancos com "nao existe" e "quebrado"), agrupa por banco e calcula a nota média e o número de avaliações. A foto de capa vem de uma subconsulta (decidi pegar a menor foto), já que um banco pode ter várias fotos. Como o banco de dados não tem colunas de conforto e acessibilidade, elas são calculadas por subconsultas: o conforto é a quantidade de tags de conforto do banco, e a acessibilidade é a quantidade de tickets de manutenção "inacessivel" já aprovados por um moderador. Os filtros entram no WHERE (local e tag) e no HAVING (avaliação mínima), a ordenação é feita pelo ORDER BY (por padrão, a nota média) e a paginação usa LIMIT e OFFSET. As principais tags de cada banco vêm de uma segunda consulta simples.
 
 ### Relevância
+  O ranking permite comparar os bancos e encontrar os melhores sem depender da localização no mapa. Os filtros e as métricas de ordenação deixam cada usuário escolher o que mais importa, como conforto, acessibilidade ou apenas a nota. A tela também incentiva o engajamento, já que avaliar e reportar problemas influencia a posição dos bancos.
+
 
 
 ## Interface 5: Tela do Assento
