@@ -19,3 +19,11 @@ O SGBD escolhido foi o SQLlite. O principal motivo para a escolha é a simplicid
 
 ### Remodelação da linha Assento -> Modelo -> Fabricante
   No primeiro diagrama feito para esse banco de dados, a relação entre Assento, Modelo e fabricante era confusa, seguindo uma cadeia de assento à fabridante, não ficando claro o que era o modelo em si, como ele era ligado ao fabricante. Agora, o modelo e fabricante tem relação somente com o assento, com o modelo servindo somente para descrever as caracteristicas fisicas do banco.
+
+### Moderador
+  O moderador foi feito como uma entidade própria, independente de *usuário*, com *mod_tag* (chave primária), *username* e *role*. Ele só existe para analisar tickets então não precisa de perfil, seguidores nem avaliações. O *role* é um VARCHAR com valor padrão 'moderador', o que permite criar "papéis" sem alterar o esquema.
+
+### Manutenção
+  A *manutenção* (pedido para mudar a situação do banco no site) se liga no diagrama a três relacionamentos: *Afeta* (assento), *Reporta* (usuário que abriu o pedido) e *Analisa* (moderador que decidiu). Como todos eles são 1:N, escolhemos não criar tabelas separadas para *Reporta* e *Analisa* e guardar essas informações direto na tabela **manutencao**, com as colunas *user_tag*, *mod_tag*, *data_analise* e *justificativa*.
+
+  As colunas da análise ficam NULL enquanto o pedido está 'pendente' e são preenchidas com um UPDATE quando o moderador decide. Assim temos menos tabelas e evitamos JOINs extras. O mesmo foi feito na *sugestão*, que também recebe *mod_tag*, *data_analise* e *justificativa*.
