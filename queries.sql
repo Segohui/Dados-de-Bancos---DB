@@ -42,6 +42,7 @@ WITH BancosRegiao AS (
     --primeiro obtemos todas as locazicações presentes dentro da área delimitada pelo mapa que estamos observando
     SELECT *
     FROM localizacao
+    -- Os parametros Xmin, Xmax, Ymin e Ymax serão passados pelo programa e serão substituidos na expressão
     WHERE localizacao.anguloX >= Xmin AND localizacao.anguloX <= Xmax AND localizacao.anguloY >= Ymin AND localizacao.anguloY <= Ymax
 )
 SELECT *
