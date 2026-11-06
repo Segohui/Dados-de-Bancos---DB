@@ -1,7 +1,7 @@
 # Interfaces
 
 ## Interface 1: Página de Usuário
-![pagina usuario](https://github.com/Segohui/Dados-de-Bancos---DB/blob/main/imagensPaginas/imagem_PaginaUser.png)
+![pagina usuario](https://gitlab.ic.unicamp.br/ra322985/mc536-2026-2s-projeto-d/-/blob/master/03-consultas/Vers%C3%B5es%20polidas%20das%20interfaces/tela_usuario_polida.jpeg)
 
 ### Explicação
 
@@ -19,7 +19,7 @@
 
 
 ## Interface 2: Tela para Moderadores
-![(Moderação)](https://github.com/Segohui/Dados-de-Bancos---DB/blob/main/imagensPaginas/Moderacao.jpg)
+![(Moderação)](https://gitlab.ic.unicamp.br/ra322985/mc536-2026-2s-projeto-d/-/blob/master/03-consultas/Vers%C3%B5es%20polidas%20das%20interfaces/Moderacao_polida.pdf)
 
 ### Explicação
   A tela possui duas seções principais, uma que mostra os tickets (manutenções ou sugestões), e a outra que define o filtro para quais aparecem. O filtro pode filtrar tickets por estado (**pendente**, **aprovada**, **rejeitada**), por tag de usuário, pelo tipo (**existe**, **não existe**, **quebrado**, **inacessivel**) e pela data de envio (seleciona todos depois de uma data minima).
@@ -29,7 +29,7 @@
 
 
 ## Interface 3: Em alta (query da página principal)
-![Bancos em alta](imagensPaginas/PaginaEmAlta.png)
+![Bancos em alta](https://gitlab.ic.unicamp.br/ra322985/mc536-2026-2s-projeto-d/-/blob/master/03-consultas/Vers%C3%B5es%20polidas%20das%20interfaces/tela_principal_polida.jpeg)
 
 ### Explicação
   Um dos módulos da página principal é "Bancos em alta", que destaca os assentos mais relevantes do momento com base no volume de avaliações recentes (o que pode indicar bancos novos, mudanças relevantes etc.). Os três bancos com maior número de novas menções são exibidos em cards na interface, contendo suas informações e um comentário de destaque.
@@ -40,7 +40,7 @@
   Essa funcionalidade apresenta bancos de interesse por um caminho alternativo à localização geográfica, destacando locais que provavelmente vêm despertando a atenção da comunidade recentemente e que, por isso, tendem a ser mais relevantes no momento. Além disso, a seção atua como incentivo direto ao engajamento, o que fomenta a coleta de dados.
 
 ## Interface 4: Tela de Ranking
-[Ranking](https://github.com/Segohui/Dados-de-Bancos---DB/blob/main/imagensPaginas/leaderboard.png)
+![Ranking](https://gitlab.ic.unicamp.br/ra322985/mc536-2026-2s-projeto-d/-/blob/master/03-consultas/Vers%C3%B5es%20polidas%20das%20interfaces/ranking_polida.pdf)
 
 ### Explicação
   A tela mostra o ranking dos bancos em uma lista paginada, com a posição, a foto, o local, as principais tags, a nota média e o número de avaliações de cada banco. Ao lado, um painel de filtros permite filtrar por local, avaliação mínima e tags, e outro painel de "Ordenar por" aceita uma ou mais métricas: nota geral, idade, conforto e acessibilidade.
@@ -53,8 +53,10 @@
 
 
 ## Interface 5: Tela do Assento
-(Imagem.jpg)
+![Tela do Assento](https://gitlab.ic.unicamp.br/ra322985/mc536-2026-2s-projeto-d/-/blob/master/03-consultas/Vers%C3%B5es%20polidas%20das%20interfaces/tela_banco_polida.png)
 
 ### Explicação
+  A tela do assento mostra todas as informações coletadas sobre um dado banco, assim como permite que usuários deixem avaliações sobre o banco e vejam avaliações de outros usuários. São mostrados, também, dados agregados sobre o quão bem avaliado foi o banco. Em específico, para esse design e para a consulta, focamos no histograma das avaliações (pois as outras consultas relacionadas a obter informações e avaliações seriam mais triviais). O histograma mostra quantas avaliações de cada nota o banco possui (nota 1, 2, 3, 4 ou 5). A consulta feita obtém, de modo geral, os histogramas de todos os bancos, e para filtrar por um banco específico basta adicionar um WHERE especificando o id do banco de interesse.
 
 ### Relevância
+  A tela do assento é o coração do site Dados de Bancos. É nela que são fornecidas as informações sobre qualquer banco e onde usuários podem tomar conhecimento de um banco e obter/fornecer informações sobre suas características e sua qualidade. Para quem está navegando, o histograma é muito conveniente para dar uma ideia geral de como foram os ratings que certo banco recebeu logo ao entrar na página, sendo muito útil e informativo na experiência de avaliação de bancos.
