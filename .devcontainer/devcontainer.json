@@ -5,5 +5,8 @@
 		"docker-compose.yml"
 	],
 	"service": "app",
-	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+	"forwardPorts": [7474, 7687],
+	"postCreateCommand": "pip install --no-cache-dir -r requirements.txt",
+	"postStartCommand": "python3 -c \"from pathlib import Path; from neo4j import GraphDatabase; d = GraphDatabase.driver('bolt://neo4j:7687', auth=('neo4j', 'banco1984')); [d.execute_query(c.strip(), database_='neo4j') for f in ['cypher/schema.cypher', 'cypher/data.cypher'] for c in '\\n'.join(l for l in Path(f).read_text(encoding='utf-8').splitlines() if not l.strip().startswith('//')).split(';') if c.strip()]; d.close(); print('Neo4j pronto e populado!')\""
 }

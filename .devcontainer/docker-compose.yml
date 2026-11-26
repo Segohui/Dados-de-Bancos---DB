@@ -3,4 +3,7 @@ services:
     image: mcr.microsoft.com/devcontainers/python:3.12
     volumes:
       - ..:/workspaces:cached
+    depends_on:
+      neo4j:
+        condition: service_healthy
     command: sleep infinity
