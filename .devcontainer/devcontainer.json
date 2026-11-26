@@ -1,0 +1,9 @@
+{
+	"name": "Dados de Bancos (Dev + Neo4j)",
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+		"docker-compose.yml"
+	],
+	"service": "app",
+	"workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}"
+}
