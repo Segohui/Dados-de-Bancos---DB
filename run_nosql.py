@@ -2,7 +2,7 @@ from pathlib import Path
 from neo4j import GraphDatabase
 
 URI = "bolt://neo4j:7687"
-AUTH = ("neo4j", "bancosunicamp")
+AUTH = ("neo4j", "banco1984")
 
 def executar_arquivo(driver, caminho):
     conteudo = Path(caminho).read_text(encoding="utf-8")
