@@ -146,3 +146,9 @@ MERGE (u)-[r:AVALIOU]->(a)
 SET r.nota = row.nota,
     r.data_avaliacao = date(row.data),
     r.comentario = row.comentario;
+
+MATCH (cb:Localizacao {nome: 'CB'})
+WITH cb
+MATCH (ifgw:Localizacao {nome: 'IFGW'})
+MERGE (cb)-[r1:PERTO_DE]->(ifgw)
+  SET r1.metros = 250, r1.caminhada_min = 3;
